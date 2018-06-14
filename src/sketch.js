@@ -7,7 +7,7 @@ export default function sketch (p) {
     let elTopo;
   
     p.preload = function(){
-      elTopo = p.loadFont('/Users/mikekluge/Desktop/eltoposite/fonts/DigestiveV07.otf');
+      elTopo = p.loadFont('./D.otf');
       console.log("this should be digestive font", elTopo);
     }
 
