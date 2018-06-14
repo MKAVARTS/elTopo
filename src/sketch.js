@@ -1,29 +1,32 @@
 export default function sketch (p) {
     let rotation = 0;
     let framecount;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let cnv;
+    let elTopo;
   
+    p.preload = function(){
+      elTopo = p.loadFont('/Users/mikekluge/Desktop/eltoposite/fonts/DigestiveV07.otf');
+      console.log("this should be digestive font", elTopo);
+    }
+
     p.setup = function () {
-      p.createCanvas(600, 400, p.WEBGL);
+     cnv = p.createCanvas(width, height, p.WEBGL);
+     p.loadFont()
     };
+
+    p.windowResized = function (){
+      p.resizeCanvas(window.innerWidth, window.innerHeight);
+      // console.log("canvas width and height", cnv.width, cnv.height);
+    }
   
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
       if (props.rotation){
-        rotation = props.rotation * Math.PI / 180;
       }
     };
   
     p.draw = function () {
-
-      framecount = p.frameCount;
-      p.ambientLight(255)
       p.background(0);
-      p.noStroke();
-      p.push();
-      p.rotateY(framecount * 0.01 * rotation % 360.0);
-      p.rotateX(framecount * 0.01 * rotation % 360.0);
-      p.box(100);
-      p.pop();
-
-
     };
   };

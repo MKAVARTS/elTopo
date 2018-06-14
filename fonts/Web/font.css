@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Digestive';
+    src:    url('Digestive_v0.7_web.eot');
+    src:    url('Digestive_v0.7_web.eot?#iefix') format('embedded-opentype'),
+            url('Digestive_v0.7_web.woff') format('woff'),
+            url('Digestive_v0.7_web.woff2') format('woff2'),
+            url('Digestive_v0.7_web.ttf') format('truetype'),
+            url('Digestive_v0.7_web.svg#svgFontName') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
