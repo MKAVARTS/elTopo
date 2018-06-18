@@ -10,7 +10,7 @@ let walkerArray = [];
 
 
 
-export default class Luv extends Component {
+export default class Terra extends Component {
 
     constructor(props){
         super(props);
@@ -23,10 +23,9 @@ export default class Luv extends Component {
     }
 
     componentDidMount() {
-        console.log("terra component mount, playTerra", this.state.playTerra);
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(400, window.innerHeight-150);
+          this.canvas.resize(400, window.innerHeight - 175);
         };
     }
 
@@ -140,7 +139,7 @@ export default class Luv extends Component {
 
 
 
-            this.canvas = p.createCanvas(400, window.innerHeight - 150);
+            this.canvas = p.createCanvas(400, window.innerHeight-175);
             for(var i = 0; i < walkerAmount; i++){
                 walkerArray.push(new Particle());
               }
@@ -163,16 +162,12 @@ export default class Luv extends Component {
 }
 
     render(){
-    console.log('rendering terra');
       return (
-    <div className='container'>
-        <div className='row align-items-center'>
-            <div className='col text-center'>
-                <p>"do 4 luv"</p>
-                <div id="cnv" ref={this.rootRef}></div>
-            </div>
-            </div>
+    <div>
+         <h1 className='text-center'>"do 4 luv"</h1>
+         <div id="cnv" ref={this.rootRef}></div>
     </div>
       );
     }
     }
+

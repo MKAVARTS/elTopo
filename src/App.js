@@ -6,14 +6,18 @@ import 'p5/lib/addons/p5.sound';
 import Terra from './Terra';
 import Luv from './Luv';
 import Plus from './Plus';
+import Info from './Info';
 import terraform from './tracks/terraform.mp3';
 import do4luv from './tracks/do4luv.mp3';
 import plusplusplus from './tracks/plusplusplus.mp3';
 
 import BackButton from './vectors/BackButton.png';
 import NextButton from './vectors/NextButton.png';
+import PauseButton from './vectors/PauseButton.png';
+import PlayButton from './vectors/PlayButton.png';
 
 let counter = 0;
+let terraformTrack = document.getElementById('terraform');
 
 class App extends Component {
   
@@ -64,6 +68,23 @@ class App extends Component {
     }
   }
 
+  showInfo = () => {
+    this.setState(
+      {
+        showInfo : true,
+        playTerra : false,
+        playLuv : false,
+        playPlus : false,
+      })
+  }
+
+  goBack = () => {
+    this.setState({
+      showInfo : false,
+      playTerra: true
+    })
+  }
+
   render() {
     if(this.state.enter === false){
     return (
@@ -73,7 +94,7 @@ class App extends Component {
         </div>
         <div className="row text-center">
           <div className="col">
-            <p onClick={this.pressedEnter} className="d-inline">ENTER</p>
+            <p id='enter' onClick={this.pressedEnter} className="d-inline hoverable">ENTER</p>
           </div>
         </div>
       </div>
@@ -81,48 +102,55 @@ class App extends Component {
 
   }else if(this.state.enter === true && this.state.playTerra === true){
     return(
-      <div>
-      <div>
-        < Terra />
-      </div>
       <div className='container'>
-          <div className='row justify-content-center'>
-              <img  onClick={this.lastTrack}  alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-              <audio autoPlay={true} controls={true} src={terraform} id='terraform' />
-              <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+        <div className='row text-center'>
+          <div className='col'>
+          < Terra />
           </div>
         </div>
+        <div className='row justify-content-center'>
+                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
+                <audio autoPlay={true} controls={true} src={terraform} id='terraform' />
+                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
         </div>
+      </div>
     )
   }else if(this.state.enter === true && this.state.playLuv === true){
     return(
-      <div>
-      <div>
-        < Luv />
-      </div>
       <div className='container'>
-          <div className='row justify-content-center'>
-              <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-              <audio autoPlay={true} controls={true} src={do4luv} id='terraform' />
-              <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+        <div className='row text-center'>
+          <div className='col'>
+          < Luv />
           </div>
         </div>
+        <div className='row justify-content-center'>
+                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
+                <audio autoPlay={true} controls={true} src={do4luv} id='terraform' />
+                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
         </div>
+      </div>
     )
   }else if(this.state.enter === true && this.state.playPlus === true){
     return(
-      <div>
-      <div>
-        < Plus />
-      </div>
       <div className='container'>
-          <div className='row justify-content-center'>
-              <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-              <audio autoPlay={true} controls={true} src={plusplusplus} id='terraform' />
-              <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+        <div className='row text-center'>
+          <div className='col'>
+          < Plus />
           </div>
         </div>
+        <div className='row justify-content-center'>
+                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
+                <audio autoPlay={true} controls={true} src={plusplusplus} id='terraform' />
+                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
+                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
         </div>
+      </div>
+    )
+  }else if(this.state.showInfo === true){
+    return(
+      < Info goBack={this.goBack} />
     )
   }
 }

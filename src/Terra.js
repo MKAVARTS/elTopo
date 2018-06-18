@@ -25,7 +25,7 @@ export default class Terra extends Component {
     componentDidMount() {
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(400, window.innerHeight-150);
+          this.canvas.resize(400, window.innerHeight - 175);
         };
     }
 
@@ -139,7 +139,7 @@ export default class Terra extends Component {
 
 
 
-            this.canvas = p.createCanvas(400, window.innerHeight - 150);
+            this.canvas = p.createCanvas(400, window.innerHeight-175);
             for(var i = 0; i < walkerAmount; i++){
                 walkerArray.push(new Particle());
               }
@@ -163,13 +163,9 @@ export default class Terra extends Component {
 
     render(){
       return (
-    <div className='container'>
-        <div className='row align-items-center'>
-            <div className='col text-center'>
-                <p>"terraform"</p>
-                <div id="cnv" ref={this.rootRef}></div>
-            </div>
-            </div>
+    <div>
+         <h1 className='text-center'>"terraform"</h1>
+         <div id="cnv" ref={this.rootRef}></div>
     </div>
       );
     }
