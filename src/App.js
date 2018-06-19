@@ -26,6 +26,8 @@ class App extends Component {
     this.state={
       enter: false,
       playTerra: true,
+      playLuv : false,
+      playPlus : false,
     }
   }
   
@@ -88,14 +90,12 @@ class App extends Component {
   render() {
     if(this.state.enter === false){
     return (
-      <div className = "container align-items-center">
-        <div className="row">
+      <div id='homeScreen' className = " mt-4 pt-3 container align-items-center">
+        <div className="row mt-5 pt-5">
             <img alt={'el topo logo'} style={{width: 300, height: 300}} className="mx-auto" src={logo} />
         </div>
-        <div className="row text-center">
-          <div className="col">
-            <p id='enter' onClick={this.pressedEnter} className="d-inline hoverable">ENTER</p>
-          </div>
+        <div className="row d-block text-center">
+            <p id='enter' onClick={this.pressedEnter} className="hoverable">ENTER</p>
         </div>
       </div>
     );

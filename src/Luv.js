@@ -3,14 +3,12 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let  width = window.innerWidth;
-let  height = window.innerHeight;
-let walkerAmount = 20;
-let walkerArray = [];
+let width = 400;
+let height = window.innerHeight - 175;
+let capture;
 
 
-
-export default class Terra extends Component {
+export default class Luv extends Component {
 
     constructor(props){
         super(props);
@@ -32,133 +30,136 @@ export default class Terra extends Component {
     sketch = (p) => {
         this.p = p;
 
-        class Particle {
-            constructor(){
-                this.location = p.createVector(p.random(100, 200),p.random(100, 200));
-                this.velocity = p.createVector(0,0);
-                this.acceleration = p.createVector(0,0);
-                this.step = 2;
+        var x1 = p.random(1, width);
+        var y1 = p.random(1, height);
+        var x2 = p.random(1, width);
+        var y2 = p.random(1, height);
+        var x3 = p.random(1, width);
+        var y3 = p.random(1, width);
+        var x4 = p.random(1, width);
+        var y4 = p.random(1, width);
+        var value = p.frameCount % 50;
+        var amount = p.map(value, 0, 100, 0.0,1.0);
 
-                this.fillColorOneFunction = () => {
-                    var pickAColor = p.floor(p.random(3));
-    
-                    switch(pickAColor){
-                        case 0: 
-                        return '#DC143C';
-                        case 1: 
-                         return '#f28500';
-                        case 2: 
-                        return '#ffffff';
-                    }
-                }
-
-                this.fillColorTwoFunction = () => {
-                    var pickAColor = p.floor(p.random(3));
-    
-                    switch(pickAColor){
-                        case 0: 
-                        return '#DC143C';
-                        case 1: 
-                         return '#f28500';
-                        case 2: 
-                        return '#ffffff';
-                    }
-                }
-
-
-                this.fillColorOne = this.fillColorOneFunction();
-                this.fillColorTwo = this.fillColorTwoFunction();
+        var buffer;
+        var counter = 0;
+        var melt_tx = 0.0;
+        var melt_ty = 0.0;
+        var melt_sx = 0.0;
+        var melt_sy = 0.0;
+        var melt_a  = 0.0;
+        var walkersAmount = 100;
+        var clearBackground = true;
+        var melting = false;
         
-            this.startColor = () => {
-                var pickAColor = p.floor(p.random(3));
-
-                switch(pickAColor){
-                    case 0: 
-                    this.fillColorOne = '#DC143C';
-                    this.fillColorTwo = '#f28500';
-                    break;
-                    case 1: 
-                    this.fillColorOne = '#f28500';
-                    this.fillColorTwo = '#ffffff';
-                    break;
-                    case 2: 
-                    this.fillColorOne = '#ffffff';
-                    this.fillColorTwo = '#DC143C';
-                    break;
-                }
-            }
-       
-
-            this.startPosition = () => {
-
-                this.location = p.createVector(p.random(100, 200),p.random(100, 200));
-                this.velocity = p.createVector(0,0);
-                this.acceleration = p.createVector(0,0);
-                this.positionX = this.location.x;
-                this.positionY = this.location.y;
-            }
-      
-            this.update = () => {
-
-                this.mouse = p.createVector(p.mouseX,p.mouseY);
-                this.mousePosition = this.mouse.copy();
-                this.mouse.sub(this.location);
-                this.mouse.setMag(0.8);
-                this.acceleration = this.mouse.add(p.createVector(p.random(-this.step,this.step), p.random(-this.step,this.step)));
-                this.acceleration = this.mouse;
-
-                this.velocity.add(this.acceleration);
-                this.velocity.limit(1.);
-                this.location.add(this.velocity);
-               
-                this.howClose = this.mousePosition.sub(this.location);
-               
-                if(p.mouseIsPressed && this.howClose.mag() < 10.0){
-                    this.startPosition();
-                    this.startColor();
-                    return p.clear();
-            }
-                
-            }
-
-            this.display = () => {
-
-                p.strokeWeight(0);
-                p.fill(this.fillColorOne);
-                p.ellipse(this.location.x, this.location.y, 1, 1);
-                p.fill(this.fillColorTwo);
-                p.rect(this.location.x, this.location.y, 1,1);  
-
-              }
-            } 
-        } 
-
-        p.setup = () => {
+        var walkers = [];
+        var NUM_SPLATS = 8;
+        var splat_index = 0;
+        var splats = [];
+        var splat_ready = false;
+        let cnv;
+        
+        var melt_interval = 1000;
+        var start = Date.now();
+        var c1,c2;
+        
+        // setup
+           p.setup = () => {
+        
+            cnv = p.createCanvas(width, height);
             p.pixelDensity(1);
             p.background(0);
-
-
-
-            this.canvas = p.createCanvas(400, window.innerHeight-175);
-            for(var i = 0; i < walkerAmount; i++){
-                walkerArray.push(new Particle());
-              }
-
-            for(var i = 0; i < walkerAmount; i++){
-                walkerArray[i].startColor();
-                walkerArray[i].startPosition();
+            p.noSmooth();
+            
+            buffer = setupBuffer();
+          }
+        
+        
+          // draw 
+           p.draw = () => {
+        
+              this.mouseReleased = () => {
+              console.log('released mouse');
+              p.clear();
+              p.background(0);
+              clearBackground = true;
             }
-            
-        }
+        
+            // updateMelt();
+        
+            let translateX = p.map(p.mouseX - width/2, -width, width, -5, 5);
+            let translateY = p.map(p.mouseY - height/2, -height, height, -5, 5);
+            let scaleX = 1.;
+            let scaleY = 1.;
+        
+            if(p.mouseIsPressed){
+            clearBackground = false;
+            smear(translateX, translateY, scaleX, scaleY, 0.001);
+            p.image(buffer, 0, 0);
+            }
+        
+            if(!p.mouseIsPressed){
+              if(!clearBackground){
+                this.mouseReleased();
+              }
+                      
+              function pickColor(){
+                var number = p.floor(p.random(4));
+                if(number === 0 ){
+                  return p.color(153,0,0);
+                }else if(number === 1){
+                  return p.color(242,133,0);
+                }else if(number === 2){
+                  return p.color(255,244,79);
+                }else if(number === 3){
+                  return p.color(255,255,255);
+                }
+              }
+        
+              if(p.frameCount % 10 === 0){
+                var x1 = p.random(1, width);
+                var y1 = p.random(1, height);
+                var x2 = p.random(1, width);
+                var y2 = p.random(1, height);
+                var x3 = p.random(1, width);
+                var y3 = p.random(1, width);
+                var x4 = p.random(1, width);
+                var y4 = p.random(1, width);
+              p.fill(pickColor());
+              p.quad(x1,y1,x2,y2,x3,y3,x4,y4);
+              }
+        
+            }
+          }
+        
+        
+          // functions 
+          function smear(tx, ty, sx, sy, angle){
 
-        p.draw = () => {    
-            
-        for(var i = 0; i < walkerArray.length; i++){
-            walkerArray[i].update();
-            walkerArray[i].display();
-   
-        }
-    }
+            p.fill(0);
+            capture = p.ellipse(0,0,0,0);
+            counter++;
+            buffer.push()
+            buffer.translate(tx + width/2, ty + height/2);
+            buffer.rotate(angle);
+            buffer.image(capture, -width/2, -height/2, width, height);
+            buffer.pop();
+          }
+        
+          function setupBuffer(){
+            p.pixelDensity(1);
+            p.background(0);
+            let b = p.createGraphics(width, height);
+            b.noSmooth();
+        
+            return b;
+          }
+        
+            p.windowResized = () => {
+            p.resizeCanvas(width, height);
+            buffer = setupBuffer();
+          }
+        
 }
 
     render(){

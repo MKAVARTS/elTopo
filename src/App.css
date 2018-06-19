@@ -13,7 +13,7 @@ body {
   background-color: black;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 p{
@@ -37,7 +37,9 @@ p{
   height: 40px;
 }
 
-
+#homeScreen{
+  height: 100vh;
+}
 
 .hoverable:hover{
   color: red;
