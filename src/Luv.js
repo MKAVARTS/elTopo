@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let width = 400;
+let width = 300;
 let height = window.innerHeight - 175;
 let capture;
 

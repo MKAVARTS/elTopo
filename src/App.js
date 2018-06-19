@@ -103,7 +103,7 @@ class App extends Component {
 
   }else if(this.state.enter === true && this.state.playTerra === true){
     return(
-      <div className='container'>
+      <div id='terra' className='container'>
           <div className='row text-center'>
             <div className='col'>
             < Terra />
@@ -113,9 +113,11 @@ class App extends Component {
 
                   <div className='col align-self-center px-0 ml-3 hoverable text-center '>
                   <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
-                  <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
                   </div>
                   <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
+                  <div className='col align-self-center px-0 hoverable text-center '>
+                  <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
+                 </div>
                   <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
              
             </div>
@@ -133,11 +135,12 @@ class App extends Component {
 
           <div className='col align-self-center px-0 ml-3 hoverable text-center '>
           <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
+          </div>
+          <div className='col'><audio autoPlay={true} controls={true} src={do4luv}/></div>
+          <div className='col align-self-center px-0 hoverable text-center '>
           <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
           </div>
-          <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
           <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
-
         </div>
       </div>
     )
@@ -153,9 +156,11 @@ class App extends Component {
 
           <div className='col align-self-center px-0 ml-3 hoverable text-center '>
           <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
-          <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
           </div>
-          <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
+          <div className='col'><audio autoPlay={true} controls={true} src={plusplusplus}/></div>
+          <div className='col align-self-center px-0 hoverable text-center '>
+            <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
+          </div>
           <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
 
           </div>

@@ -139,7 +139,7 @@ export default class Terra extends Component {
 
 
 
-            this.canvas = p.createCanvas(400, window.innerHeight-175);
+            this.canvas = p.createCanvas(350, window.innerHeight-175);
             for(var i = 0; i < walkerAmount; i++){
                 walkerArray.push(new Particle());
               }
