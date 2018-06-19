@@ -24,10 +24,10 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      enter: false,
-      playTerra: true,
+      enter: true,
+      playTerra: false,
       playLuv : false,
-      playPlus : false,
+      playPlus : true,
     }
   }
   

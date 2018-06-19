@@ -3,31 +3,13 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let  width = 400;
-let  height = window.innerHeight - 150;
-let walkerAmount = 20;
-let walkerArray = [];
-
-var buffer;
+let width = 400;
+let height = window.innerHeight - 175;
+let pushLine = false;
+let amount = 20;
+let step = amount;
+let length = amount;
 var counter = 0;
-var melt_tx = 0.0;
-var melt_ty = 0.0;
-var melt_sx = 0.0;
-var melt_sy = 0.0;
-var melt_a  = 0.0;
-var capture;
-var VIDEO;
-
-var walkers = [];
-
-var NUM_SPLATS = 8;
-var splat_index = 0;
-var splats = [];
-var splat_ready = false;
-
-var melt_interval = 1000;
-var start = Date.now();
-
 
 
 export default class Plus extends Component {
@@ -45,124 +27,86 @@ export default class Plus extends Component {
     componentDidMount() {
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(width, window.innerHeight - 175);
+          this.canvas.resize(width, height);
         };
     }
 
     sketch = (p) => {
         this.p = p;
 
-        class Walker {
-            constructor(x, y){
-              this.posX = x;
-              this.posY = y;
-              this.walkX = this.posX;
-              this.walkY = this.posY;
+        let lineArray = [];
 
-            this.update = () => {
-              let rx = p.random(-64, 64);
-              let ry = p.random(-64, 64);
-              if (this.walkX + rx > width || this.walkX + rx < 0){
-                rx *= -1;
-              }
-              if (this.walkY + ry > height || this.walkY + ry < 0){
-                ry *= -1;
-              }
+        p.setup = () => {
+          p.pixelDensity(1);
+          this.canvas = p.createCanvas(width, height);
+          p.background(0);
+        }
+
+        p.mouseClicked = () => {
+          lineArray.splice(0,1);
+          step = 20;
+          var vector = p.createVector(p.mouseX,p.mouseY);
+          lineArray.push(new DrawRandomLine(vector));
+        }
+
+        class DrawRandomLine {
+          constructor(vector){
+            this.x = vector.x;
+            this.y = vector.y;
+
+            this.updatePath = () =>{
+              var selector = p.random();
+
+              if(selector <= 0.25){
+                this.x += 2;
+                if(this.x > width){
+                  this.x = 0;
+                }
+              }else if(selector > 0.25 && selector <= 0.5){
+                this.x -= 4;
+                if(this.x < 0){
+                  this.x = width;
+                }
+              }else if(selector > 0.5 && selector <= 0.75){
+                this.y += 6;
+                if(this.y > height){
+                  this.y = 0;
+                }
+              }else if(selector > 0.75 && selector <= 1.0){
+                this.y -= 8;
+                if(this.y < 0){
+                  this.y = height;
+                }
+            }
+          }
+            this.displayPath = () => {
               
-              this.walkX += rx;
-              this.walkY += ry;
-              
-              let dx = this.walkX - this.posX;
-              let dy = this.walkY - this.posY;
-              if (p.abs(dx) < 1){
-                this.posX = this.walkX;
-              }
-              if (p.abs(dy) < 1){
-                this.posY = this.walkY;
-              }
-              this.posX += dx*0.024;
-              this.posY += dy*0.024;
-            
+              counter = p.random();
+              if(counter > 0.5){
+              p.push();
+              p.translate(this.x, this.y);
+              p.line(length,0, 0, length);
+              p.pop();
+            }else if(counter < 0.5){
+              p.push();
+              p.strokeWeight(p.random(1,3));
+              p.translate(this.x, this.y);
+              p.line(0,0, length, length);
+              p.pop();
             }
           }
         }
-           
-
-           p.setup = () => {
-            p.pixelDensity(1);
-            p.createCanvas(window.innerWidth, window.innerHeight);
-            p.background(255);
-            p.noSmooth();
-
-            capture = p.ellipse(width/2, height/2, 20, 20);
-            capture.size(window.innerWidth, window.innerHeight);
-            capture.hide();
-
-            melt_tx = p.random(width);
-            melt_ty = p.random(height);
-            melt_sx = p.random(width);
-            melt_sy = p.random(height);
-            melt_a  = p.random(-0.01, 0.01);
-
-            this.setupBuffer = () => {
-                let b = p.createGraphics(width, window.innerHeight);
-                b.noSmooth();
-            
-                return b;
-              }
-
-              this.randomizeMelt = () => {
-                melt_tx = p.random(width);
-                melt_ty = p.random(height);
-                melt_sx = p.random(width);
-                melt_sy = p.random(height);
-                melt_a  = p.random(-0.0048, 0.0048);
-              }
-            
-            buffer = this.setupBuffer();
-        
-            walkers[0] = new Walker(width, height * 0.25);
-        
-          }
-        
+      }
 
          p.draw = () => {
 
-            this.updateMelt = () =>{
-                melt_tx += p.cos(1.1*p.frameCount*0.01)*4;
-                melt_ty += p.sin(1.2*p.frameCount*0.01)*4;
-                melt_sx += p.cos(1.3*p.frameCount*0.01)*4;
-                melt_sy += p.sin(1.4*p.frameCount*0.01)*4;
-              }
-
-              this.melt = (tx, ty, sx, sy, angle) => {
-                counter++;
-                buffer.push()
-                buffer.p.translate(tx + width/2, ty + height/2);
-                buffer.p.rotate(angle);
-                if(counter % 200 === 0){
-                buffer.image(capture, -window.innerWidth/2,-window.innerHeight/2,window.innerWidth,window.innerHeight);
-                }
-                buffer.image(buffer, -sx/2 - width/2, -sy/2 - height/2, sx + width, sy + height);
-                buffer.pop()
-              }
-
-            this.updateMelt();
-        
-            let translateX = (melt_tx - width/2) * 0.0024;
-            let translateY = (melt_ty - height/2) * 0.0024;
-            let scaleX = (melt_sx - width/2) * 0.01;
-            let scaleY = (melt_sy - height/2) * 0.01;
-        
-            this.melt(translateX, translateY, scaleX, scaleY, 0.001);
-        
-            // image(capture,0,0,320,240);
-            p.image(buffer, 0, 0);
-        
-            for (let i = 0; i < walkers.length; i++){
-              walkers[i].update();
-            }
+          for(var i = 0; i < lineArray.length; i++){
+            let line = lineArray[i];
+              p.stroke(255);
+              line.updatePath();
+              line.displayPath();
           }
+        }
 }
 
     render(){
