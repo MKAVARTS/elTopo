@@ -25,7 +25,7 @@ export default class Terra extends Component {
     componentDidMount() {
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(400, window.innerHeight - 175);
+          this.canvas.resize(400, 500);
         };
     }
 

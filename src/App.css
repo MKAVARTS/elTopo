@@ -9,6 +9,10 @@
   src: url('./Digestive.otf');
 }
 
+audio{
+  display: block;
+  width: 250px;
+}
 body {
   background-color: black;
   margin: 0;
@@ -16,15 +20,24 @@ body {
   /* overflow: hidden; */
 }
 
+#terraPlayer{
+  /* background-color: pink; */
+}
+
 p{
   color: white;
   font-size: 1.5em;
 }
-.playback {
-  background-color: white;
-  width: 40px;
-  height: 40px;
+
+h5{
+  font-family: 'Didact Gothic';
+  color: white;
 }
+/* .playback {
+  background-color: white;
+  width: 20px;
+  height: 20px;
+} */
 
 #pause{
   background-color: white;
@@ -33,8 +46,8 @@ p{
 }
 
 .icons {
-  width: 40px;
-  height: 40px;
+  width: 15px;
+  height: 15px;
 }
 
 #homeScreen{
@@ -42,7 +55,7 @@ p{
 }
 
 .hoverable:hover{
-  color: red;
+  background-color: red;
 }
 
 img:hover {

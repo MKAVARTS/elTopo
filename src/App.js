@@ -24,10 +24,11 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
+      showInfo: false,
       enter: true,
-      playTerra: false,
+      playTerra: true,
       playLuv : false,
-      playPlus : true,
+      playPlus : false,
     }
   }
   
@@ -103,17 +104,21 @@ class App extends Component {
   }else if(this.state.enter === true && this.state.playTerra === true){
     return(
       <div className='container'>
-        <div className='row text-center'>
-          <div className='col'>
-          < Terra />
+          <div className='row text-center'>
+            <div className='col'>
+            < Terra />
+            </div>
           </div>
-        </div>
-        <div className='row justify-content-center'>
-                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-                <audio autoPlay={true} controls={true} src={terraform} id='terraform' />
-                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
-                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
-        </div>
+          <div id='terraPlayer' className='row justify-content-space-around'>
+
+                  <div className='col align-self-center px-0 ml-3 hoverable text-center '>
+                  <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
+                  <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
+                  </div>
+                  <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
+                  <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+             
+            </div>
       </div>
     )
   }else if(this.state.enter === true && this.state.playLuv === true){
@@ -124,11 +129,15 @@ class App extends Component {
           < Luv />
           </div>
         </div>
-        <div className='row justify-content-center'>
-                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-                <audio autoPlay={true} controls={true} src={do4luv} id='terraform' />
-                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
-                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
+          <div id='luvPlayer' className='row justify-content-space-around'>
+
+          <div className='col align-self-center px-0 ml-3 hoverable text-center '>
+          <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
+          <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
+          </div>
+          <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
+          <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+
         </div>
       </div>
     )
@@ -140,12 +149,16 @@ class App extends Component {
           < Plus />
           </div>
         </div>
-        <div className='row justify-content-center'>
-                <img onClick={this.lastTrack} alt={'back button'} className='pl-2 pr-2 mt-2 playback' src={BackButton} />
-                <audio autoPlay={true} controls={true} src={plusplusplus} id='terraform' />
-                <img alt={'next button'} onClick={this.nextTrack} className='pl-2 pr-2 mt-2 playback' src={NextButton} />
-                <p className='pl-2 hoverable' onClick={this.showInfo}> ? </p>
-        </div>
+        <div id='luvPlayer' className='row justify-content-space-around'>
+
+          <div className='col align-self-center px-0 ml-3 hoverable text-center '>
+          <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
+          <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
+          </div>
+          <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
+          <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+
+          </div>
       </div>
     )
   }else if(this.state.showInfo === true){
