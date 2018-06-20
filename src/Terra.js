@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let  width = window.innerWidth;
-let  height = window.innerHeight;
 let walkerAmount = 20;
 let walkerArray = [];
 
@@ -14,8 +12,11 @@ export default class Terra extends Component {
 
     constructor(props){
         super(props);
-            this.state={playTerra: this.props.playTerra, loadedComponent : false}
-        }
+            this.state=
+                {
+                playTerra: this.props.playTerra
+                }
+    }
 
 
     rootRef = node => {
@@ -23,6 +24,7 @@ export default class Terra extends Component {
     }
 
     componentDidMount() {
+        console.log('mounted terra component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
           this.canvas.resize(400, 500);
@@ -38,6 +40,7 @@ export default class Terra extends Component {
                 this.velocity = p.createVector(0,0);
                 this.acceleration = p.createVector(0,0);
                 this.step = 2;
+                this.mag = 0.8;
 
                 this.fillColorOneFunction = () => {
                     var pickAColor = p.floor(p.random(3));
@@ -48,6 +51,8 @@ export default class Terra extends Component {
                         case 1: 
                          return '#f28500';
                         case 2: 
+                        return '#ffffff';
+                        default: 
                         return '#ffffff';
                     }
                 }
@@ -61,6 +66,8 @@ export default class Terra extends Component {
                         case 1: 
                          return '#f28500';
                         case 2: 
+                        return '#ffffff';
+                        default: 
                         return '#ffffff';
                     }
                 }
@@ -85,6 +92,9 @@ export default class Terra extends Component {
                     this.fillColorOne = '#ffffff';
                     this.fillColorTwo = '#DC143C';
                     break;
+                    default: 
+                    this.fillColorOne = '#ffffff';
+                    this.fillColorTwo = '#DC143C';
                 }
             }
        
@@ -103,7 +113,7 @@ export default class Terra extends Component {
                 this.mouse = p.createVector(p.mouseX,p.mouseY);
                 this.mousePosition = this.mouse.copy();
                 this.mouse.sub(this.location);
-                this.mouse.setMag(0.8);
+                this.mouse.setMag(this.mag);
                 this.acceleration = this.mouse.add(p.createVector(p.random(-this.step,this.step), p.random(-this.step,this.step)));
                 this.acceleration = this.mouse;
 
@@ -139,24 +149,29 @@ export default class Terra extends Component {
 
 
 
-            this.canvas = p.createCanvas(350, window.innerHeight-175);
+            this.canvas = p.createCanvas(350, window.innerHeight-150);
             for(var i = 0; i < walkerAmount; i++){
                 walkerArray.push(new Particle());
               }
 
-            for(var i = 0; i < walkerAmount; i++){
+            for(i = 0; i < walkerAmount; i++){
                 walkerArray[i].startColor();
                 walkerArray[i].startPosition();
             }
             
         }
 
-        p.draw = () => {    
+        p.draw = () => {   
+           
             
+        if(this.state.playTerra){
         for(var i = 0; i < walkerArray.length; i++){
             walkerArray[i].update();
             walkerArray[i].display();
+        }
    
+        }else{
+            p.noLoop();
         }
     }
 }

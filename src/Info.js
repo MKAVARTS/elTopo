@@ -11,7 +11,7 @@ class Info extends Component {
                 <p> IS AARON HARMON AND JORDAN REYES </p>
                 <p>El Topo is a deeply dark and cerebral production duo from Nashville. The music celebrates the underpinned intricacies of techno and club music. Known for their productions as BASECAMP, the duo has diverged from vocal-centric tracks to create El Topo’s signature blend of sound design and club influences.  </p>
                 <p> email : eltopo@gmail.com </p>
-                <img className='img-fluid' id='elTopo' src={ElTopo} />
+                <img className='img-fluid' id='elTopo' src={ElTopo} alt={'promotional'}/>
             </div>
         )
     }

@@ -3,20 +3,21 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let width = 300;
-let height = window.innerHeight - 175;
-let pushLine = false;
+let width = 350;
+let height = window.innerHeight - 150;
 let amount = 20;
-let step = amount;
 let length = amount;
 var counter = 0;
+let lineArray = [];
+
+
 
 
 export default class Plus extends Component {
 
     constructor(props){
         super(props);
-            this.state={playTerra: this.props.playTerra, loadedComponent : false}
+            this.state={playPlus: this.props.playPlus, loadedComponent: false}
         }
 
 
@@ -25,6 +26,8 @@ export default class Plus extends Component {
     }
 
     componentDidMount() {
+        this.setState({loadedComponent: true});
+        console.log('mounted plus component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
           this.canvas.resize(width, height);
@@ -34,19 +37,19 @@ export default class Plus extends Component {
     sketch = (p) => {
         this.p = p;
 
-        let lineArray = [];
-
         p.setup = () => {
           p.pixelDensity(1);
           this.canvas = p.createCanvas(width, height);
           p.background(0);
         }
 
-        p.mouseClicked = () => {
+        p.touchEnded = () => {
+          if(p.mouseX >= 0 && p.mouseX <= width && p.mouseY >= 0 && p.mouseY <= height){
           lineArray.splice(0,1);
-          step = 20;
           var vector = p.createVector(p.mouseX,p.mouseY);
           lineArray.push(new DrawRandomLine(vector));
+          console.log('lineArray length', lineArray.length);
+          }
         }
 
         class DrawRandomLine {
@@ -100,13 +103,17 @@ export default class Plus extends Component {
 
          p.draw = () => {
 
+          if(this.state.playPlus){
           for(var i = 0; i < lineArray.length; i++){
             let line = lineArray[i];
               p.stroke(255);
               line.updatePath();
               line.displayPath();
           }
+        }else{
+          p.noLoop();
         }
+      }
 }
 
     render(){

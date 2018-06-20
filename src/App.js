@@ -11,13 +11,10 @@ import terraform from './tracks/terraform.mp3';
 import do4luv from './tracks/do4luv.mp3';
 import plusplusplus from './tracks/plusplusplus.mp3';
 
-import BackButton from './vectors/BackButton.png';
-import NextButton from './vectors/NextButton.png';
-import PauseButton from './vectors/PauseButton.png';
-import PlayButton from './vectors/PlayButton.png';
 
 let counter = 0;
-let terraformTrack = document.getElementById('terraform');
+let activeSong;
+
 
 class App extends Component {
   
@@ -25,10 +22,11 @@ class App extends Component {
     super(props);
     this.state={
       showInfo: false,
-      enter: false,
-      playTerra: true,
-      playLuv : false,
+      enter: true,
+      playTerra: false,
+      playLuv : true,
       playPlus : false,
+      playOrPauseTerra : 'pause'
     }
   }
   
@@ -37,16 +35,12 @@ class App extends Component {
   }
 
   nextTrack = () => {
-    console.log('trying to go to the next track');
     counter++;
     counter = counter % 3;
 
-    console.log(counter);
     if(counter === 0){
-      console.log('trying to set state to play terra true');
       this.setState({playTerra : true, playLuv : false, playPlus: false});
     }else if(counter === 1){
-      console.log('trying to set state to play terra false');
       this.setState({playTerra: false, playLuv: true, playPlus: false});
     }else if(counter === 2){
       this.setState({playTerra: false, playLuv: false, playPlus: true});
@@ -54,17 +48,13 @@ class App extends Component {
   }
 
   lastTrack = () => {
-    console.log('trying to go to the next track');
     counter--;
     counter = counter % 3;
 
-    console.log(counter);
     if(counter <= 0){
       counter = 0;
-      console.log('trying to set state to play terra true');
       this.setState({playTerra : true, playLuv : false, playPlus: false});
     }else if(counter === 1){
-      console.log('trying to set state to play terra false');
       this.setState({playTerra: false, playLuv: true, playPlus: false});
     }else if(counter === 2){
       this.setState({playTerra: false, playLuv: false, playPlus: true});
@@ -77,8 +67,25 @@ class App extends Component {
         showInfo : true,
         playTerra : false,
         playLuv : false,
-        playPlus : false,
+        playPlus : false
       })
+  }
+
+  playPause = (evt) => {
+
+      if(evt.target.id === 'terra'){
+      activeSong = document.getElementById('terraform');
+      }else if(evt.target.id === 'luv'){
+      activeSong = document.getElementById('do4luv');
+      }
+
+      if (activeSong.paused){
+        activeSong.play();
+        this.setState({playOrPauseTerra: 'play'});
+      }else{
+        this.setState({playOrPauseTerra: 'pause'});
+        activeSong.pause();
+      }
   }
 
   goBack = () => {
@@ -91,34 +98,33 @@ class App extends Component {
   render() {
     if(this.state.enter === false){
     return (
-      <div id='homeScreen' className = " mt-4 pt-3 container align-items-center">
-        <div className="row mt-5 pt-5">
-            <img alt={'el topo logo'} style={{width: 300, height: 300}} className="mx-auto" src={logo} />
+        <div className = "container">
+          <div id='homeScreen' className="row mb-0  pb-0 align-items-center justify-content-center">
+                <img alt={'el topo logo'} style={{width: '300px', height: '300px'}} src={logo} />
+          </div>
+          <div className="row mt-0 align-items-center justify-content-center ">
+            <p id='enter' onClick={this.pressedEnter} className=" d-inline text-center hoverable">ENTER</p>
+          </div>
         </div>
-        <div className="row d-block text-center">
-            <p id='enter' onClick={this.pressedEnter} className="hoverable">ENTER</p>
-        </div>
-      </div>
     );
 
   }else if(this.state.enter === true && this.state.playTerra === true){
     return(
       <div id='terra' className='container'>
           <div className='row text-center'>
-            <div className='col'>
-            < Terra />
-            </div>
+            < Terra playTerra={this.state.playTerra} />
           </div>
-          <div id='terraPlayer' className='row justify-content-space-around'>
+          <div className='row align-items-center align-content-center text-center'>
 
-                  <div className='col align-self-center px-0 ml-3 hoverable text-center '>
-                  <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
-                  </div>
-                  <div className='col'><audio autoPlay={true} controls={true} src={terraform}/></div>
-                  <div className='col align-self-center px-0 hoverable text-center '>
-                  <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
-                 </div>
-                  <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+                    <div><audio id='terraform' autoPlay={true} src={terraform}/></div>
+
+                    <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
+
+                    <h5 id='terra' className='col hoverable' onClick={this.playPause} alt={'back button'}>{this.state.playOrPauseTerra}</h5>
+
+                    <h5 className='col hoverable' onClick={this.nextTrack} alt={'back button'}>next</h5>
+                
+                  <h5 className='col hoverable' onClick={this.showInfo} alt={'back button'}>?</h5>
              
             </div>
       </div>
@@ -128,19 +134,21 @@ class App extends Component {
       <div className='container'>
         <div className='row text-center'>
           <div className='col'>
-          < Luv />
+          < Luv playLuv={this.state.playLuv} />
           </div>
         </div>
-          <div id='luvPlayer' className='row justify-content-space-around'>
+        <div id='luvPlayer' className='row align-items-center align-content-center text-center'>
 
-          <div className='col align-self-center px-0 ml-3 hoverable text-center '>
-          <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
-          </div>
-          <div className='col'><audio autoPlay={true} controls={true} src={do4luv}/></div>
-          <div className='col align-self-center px-0 hoverable text-center '>
-          <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
-          </div>
-          <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+            <div><audio id='do4luv' autoPlay={true} src={do4luv}/></div>
+
+            <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
+
+            <h5 id='luv' className='col hoverable' onClick={this.playPause} alt={'back button'}>{this.state.playOrPauseTerra}</h5>
+
+            <h5 className='col hoverable' onClick={this.nextTrack} alt={'back button'}>next</h5>
+
+            <h5 className='col hoverable' onClick={this.showInfo} alt={'back button'}>?</h5>
+
         </div>
       </div>
     )
@@ -149,21 +157,22 @@ class App extends Component {
       <div className='container'>
         <div className='row text-center'>
           <div className='col'>
-          < Plus />
+          < Plus playPlus={this.state.playPlus} />
           </div>
         </div>
-        <div id='luvPlayer' className='row justify-content-space-around'>
+        <div id='plusPlayer' className='row align-items-center align-content-center text-center'>
 
-          <div className='col align-self-center px-0 ml-3 hoverable text-center '>
-          <h5 onClick={this.lastTrack} alt={'back button'}>last</h5>
-          </div>
-          <div className='col'><audio autoPlay={true} controls={true} src={plusplusplus}/></div>
-          <div className='col align-self-center px-0 hoverable text-center '>
-            <h5 onClick={this.nextTrack} alt={'back button'}>next</h5>
-          </div>
-          <div className='col align-self-center d-inline  hoverable text-left '><h5 onClick={this.showInfo} alt={'back button'}>?</h5></div>
+            <div><audio id='do4luv' autoPlay={true} src={plusplusplus}/></div>
 
-          </div>
+            <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
+
+            <h5 id='luv' className='col hoverable' onClick={this.playPause} alt={'back button'}>{this.state.playOrPauseTerra}</h5>
+
+            <h5 className='col hoverable' onClick={this.nextTrack} alt={'back button'}>next</h5>
+
+            <h5 className='col hoverable' onClick={this.showInfo} alt={'back button'}>?</h5>
+
+        </div>
       </div>
     )
   }else if(this.state.showInfo === true){
