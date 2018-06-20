@@ -23,7 +23,7 @@ export default class Luv extends Component {
     }
 
     componentDidMount() {
-        console.log('luv component mounted');
+        // console.log('luv component mounted');
         new p5(this.sketch, this.root);
         window.onresize = () => {
           this.canvas.resize(400, window.innerHeight - 175);

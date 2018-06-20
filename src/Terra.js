@@ -24,10 +24,10 @@ export default class Terra extends Component {
     }
 
     componentDidMount() {
-        console.log('mounted terra component');
+        // console.log('mounted terra component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(400, 500);
+          this.canvas.resize(350, window.innerHeight-150);
         };
     }
 

@@ -22,8 +22,8 @@ class App extends Component {
     super(props);
     this.state={
       showInfo: false,
-      enter: true,
-      playTerra: false,
+      enter: false,
+      playTerra: true,
       playLuv : true,
       playPlus : false,
       playOrPauseTerra : 'pause'
@@ -103,7 +103,7 @@ class App extends Component {
                 <img alt={'el topo logo'} style={{width: '300px', height: '300px'}} src={logo} />
           </div>
           <div className="row mt-0 align-items-center justify-content-center ">
-            <p id='enter' onClick={this.pressedEnter} className=" d-inline text-center hoverable">ENTER</p>
+            <h2 id='enter' onClick={this.pressedEnter} className=" d-inline text-center hoverable">ENTER</h2>
           </div>
         </div>
     );

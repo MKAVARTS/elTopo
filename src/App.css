@@ -27,7 +27,8 @@ body {
 
 p{
   color: white;
-  font-size: 1em;
+  font-size: 0.8em;
+
 }
 
 h5{
@@ -35,6 +36,13 @@ h5{
   font-family: 'Inconsolata', monospace;
   color: white;
 }
+
+h2{
+  font-family: 'Inconsolata', monospace;
+  color: white;
+  letter-spacing: 1em;
+}
+
 .playback {
   background-color: pink;
 }

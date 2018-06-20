@@ -27,7 +27,7 @@ export default class Plus extends Component {
 
     componentDidMount() {
         this.setState({loadedComponent: true});
-        console.log('mounted plus component');
+        // console.log('mounted plus component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
           this.canvas.resize(width, height);
@@ -48,7 +48,6 @@ export default class Plus extends Component {
           lineArray.splice(0,1);
           var vector = p.createVector(p.mouseX,p.mouseY);
           lineArray.push(new DrawRandomLine(vector));
-          console.log('lineArray length', lineArray.length);
           }
         }
 
