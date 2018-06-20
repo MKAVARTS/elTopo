@@ -22,9 +22,9 @@ class App extends Component {
     super(props);
     this.state={
       showInfo: false,
-      enter: true,
-      playTerra: false,
-      playLuv : true,
+      enter: false,
+      playTerra: true,
+      playLuv : false,
       playPlus : false,
       playOrPauseTerra : 'pause'
     }
@@ -101,10 +101,11 @@ class App extends Component {
         <div className = "container">
           <div id='homeScreen' className="row mb-0  pb-0 align-items-center justify-content-center">
                 <img alt={'el topo logo'} style={{width: '300px', height: '300px'}} src={logo} />
+                <h2 id='enter' onClick={this.pressedEnter} className=" d-inline text-center hoverable">ENTER</h2>
           </div>
-          <div className="row mt-0 align-items-center justify-content-center ">
+          {/* <div className="row mt-0 align-items-center justify-content-center ">
             <h2 id='enter' onClick={this.pressedEnter} className=" d-inline text-center hoverable">ENTER</h2>
-          </div>
+          </div> */}
         </div>
     );
 
@@ -116,7 +117,7 @@ class App extends Component {
           </div>
           <div className='row align-items-center align-content-center text-center'>
 
-                    <div><audio id='terraform' autoPlay={true} src={terraform}/></div>
+                    <div><audio id='terraform' loop={true} autoPlay={true} src={terraform}/></div>
 
                     <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
 
@@ -139,7 +140,7 @@ class App extends Component {
         </div>
         <div id='luvPlayer' className='row align-items-center align-content-center text-center'>
 
-            <div><audio id='do4luv' autoPlay={true} src={do4luv}/></div>
+            <div><audio loop={true} id='do4luv' autoPlay={true} src={do4luv}/></div>
 
             <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
 
@@ -162,7 +163,7 @@ class App extends Component {
         </div>
         <div id='plusPlayer' className='row align-items-center align-content-center text-center'>
 
-            <div><audio id='do4luv' autoPlay={true} src={plusplusplus}/></div>
+            <div><audio loop={true} id='do4luv' autoPlay={true} src={plusplusplus}/></div>
 
             <h5 className='col hoverable' onClick={this.lastTrack} alt={'back button'}>last</h5>
 
