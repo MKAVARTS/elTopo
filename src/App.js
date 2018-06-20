@@ -22,8 +22,8 @@ class App extends Component {
     super(props);
     this.state={
       showInfo: false,
-      enter: false,
-      playTerra: true,
+      enter: true,
+      playTerra: false,
       playLuv : true,
       playPlus : false,
       playOrPauseTerra : 'pause'

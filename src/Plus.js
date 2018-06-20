@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let width = 350;
-let height = window.innerHeight - 150;
+let width = window.innerWidth - 350;
+let height = window.innerHeight - 175;
 let amount = 20;
 let length = amount;
 var counter = 0;
@@ -26,18 +26,32 @@ export default class Plus extends Component {
     }
 
     componentDidMount() {
+      width = window.innerWidth - 350;
+      height = window.innerHeight - 175;
         this.setState({loadedComponent: true});
         // console.log('mounted plus component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(width, height);
-        };
+          this.canvas.resize(window.innerWidth - 350, window.innerHeight-175);
+          if(window.innerWidth < 700){
+              this.canvas.resize(350, window.innerHeight-175);
+          }
+          };
     }
 
     sketch = (p) => {
         this.p = p;
 
         p.setup = () => {
+
+          if(window.innerWidth < 900){
+            width = 350;
+            height = window.innerHeight-175
+          }else{
+            width = window.innerWidth - 350;
+            height = window.innerHeight - 175;
+          }
+
           p.pixelDensity(1);
           this.canvas = p.createCanvas(width, height);
           p.background(0);
@@ -117,10 +131,14 @@ export default class Plus extends Component {
 
     render(){
       return (
-    <div>
-         <h1 className='text-center'>" + + + "</h1>
-         <div id="cnv" ref={this.rootRef}></div>
-    </div>
+        <div className='container'>
+        <div className='row align-items-center justify-content-center'>
+            <h1>"+ + +"</h1>
+        </div>
+        <div className='row align-items-center justify-content-center'>
+            <div style={{border: '2px solid white'}} id="cnv" ref={this.rootRef}></div>
+        </div>
+   </div>
       );
     }
     }

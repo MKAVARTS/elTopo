@@ -5,7 +5,8 @@ import 'p5/lib/addons/p5.sound.min.js';
 
 let walkerAmount = 20;
 let walkerArray = [];
-
+let width = window.innerWidth - 350;
+let height = window.innerHeight - 175;
 
 
 export default class Terra extends Component {
@@ -24,12 +25,18 @@ export default class Terra extends Component {
     }
 
     componentDidMount() {
+         width = window.innerWidth - 350;
+        height = window.innerHeight - 175;
         // console.log('mounted terra component');
         new p5(this.sketch, this.root);
         window.onresize = () => {
-          this.canvas.resize(350, window.innerHeight-150);
-        };
-    }
+            if(window.innerWidth < 800){
+              this.canvas.resize(350, window.innerHeight-175);
+            }else{
+              this.canvas.resize(window.innerWidth - 350, window.innerHeight-175);
+            }
+            }
+    };
 
     sketch = (p) => {
         this.p = p;
@@ -147,9 +154,17 @@ export default class Terra extends Component {
             p.pixelDensity(1);
             p.background(0);
 
+            if(window.innerWidth < 900){
+                width = 350;
+                height = window.innerHeight-175
+              }else{
+                width = window.innerWidth - 350;
+                height = window.innerHeight - 175;
+              }
 
 
-            this.canvas = p.createCanvas(350, window.innerHeight-150);
+
+            this.canvas = p.createCanvas(width, height);
             for(var i = 0; i < walkerAmount; i++){
                 walkerArray.push(new Particle());
               }
@@ -178,9 +193,13 @@ export default class Terra extends Component {
 
     render(){
       return (
-    <div>
-         <h1 className='text-center'>"terraform"</h1>
-         <div id="cnv" ref={this.rootRef}></div>
+    <div className='container'>
+         <div className='row align-items-center justify-content-center'>
+             <h1>"terraform"</h1>
+         </div>
+         <div className='row align-items-center justify-content-center'>
+             <div style={{border: '2px solid white'}} id="cnv" ref={this.rootRef}></div>
+         </div>
     </div>
       );
     }

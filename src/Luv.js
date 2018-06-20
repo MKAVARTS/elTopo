@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let width = 350;
-let height = window.innerHeight - 150;
+let width = window.innerWidth - 350;
+let height = window.innerHeight - 175;
 var clearBackground = true;
 let counter = 0;
-let buffer, cnv;
+let buffer, cnv, capture;
 
 
 
@@ -24,19 +24,36 @@ export default class Luv extends Component {
 
     componentDidMount() {
         // console.log('luv component mounted');
+        width = window.innerWidth - 350;
+        height = window.innerHeight - 175;
         new p5(this.sketch, this.root);
-        window.onresize = () => {
-          this.canvas.resize(400, window.innerHeight - 175);
-        };
-    }
+        // window.onresize = () => {
+        //   if(window.innerWidth < 800){
+        //     this.canvas.resize(width, window.innerHeight-175);
+        //   }else{
+        //     this.canvas.resize(window.innerWidth - 350, window.innerHeight-175);
+        //   }
+        //   }
+          };
 
     sketch = (p) => {
         this.p = p;
         
         // setup
            p.setup = () => {
+
+            if(window.innerWidth < 900){
+              width = 350;
+              height = window.innerHeight-175
+              // capture.resize(wid, window.innerHeight-175);
+            }else{
+              width = window.innerWidth - 350;
+              height = window.innerHeight - 175;
+              // capture.resize(window.innerWidth - 350, window.innerHeight-175);
+            }
         
-            cnv = p.createCanvas(width, height);
+            this.canvas = p.createCanvas(width, height);
+            cnv = this.canvas;
             p.pixelDensity(1);
             p.background(0);
             p.noSmooth();
@@ -49,31 +66,23 @@ export default class Luv extends Component {
         
           // draw 
            p.draw = () => {
+
+       
         
               if(this.state.playLuv){
-              this.mouseReleased = () => {
-              p.clear();
-              p.background(0);
-              clearBackground = true;
-            }
-        
-            // updateMelt();
         
             let translateX = p.map(p.mouseX - width/2, -width, width, -20, 20);
             let translateY = p.map(p.mouseY - height/2, -height, height, -20, 20);
             let scaleX = 1.;
             let scaleY = 1.;
         
-            if(p.mouseIsPressed){
+            if(p.mouseIsPressed && p.mouseX > 0 && p.mouseX < width && p.mouseY > 0 && p.mouseY < height){
             clearBackground = false;
             smear(translateX, translateY, scaleX, scaleY, 0.005);
             p.image(buffer, 0, 0);
             }
         
             if(!p.mouseIsPressed){
-              if(!clearBackground){
-                this.mouseReleased();
-              }
                       
               function pickColor(){
                 var number = p.floor(p.random(4));
@@ -111,27 +120,49 @@ export default class Luv extends Component {
           // functions 
           function smear(tx, ty, sx, sy, angle){
 
+            
             p.fill(0);
             counter = counter + 1;
-            buffer.push()
+            buffer.push();
             buffer.translate(tx + width/2, ty + height/2);
             buffer.rotate(angle);
-            buffer.image(cnv, -width/2, -height/2, width * 1.001, height * 1.001);
+            buffer.image(cnv, -width/2, -height/2, width, height);
             buffer.pop();
           }
+
+          p.windowResized = () => {
+            // p.resizeCanvas(width,height);
+              if(window.innerWidth < 800){
+                width = 350;
+                height = window.innerHeight-175
+                p.resizeCanvas(width, height);
+                buffer = p.createGraphics(width,height);
+                buffer.noSmooth();
+                // capture.resize(wid, window.innerHeight-175);
+              }else{
+                width = window.innerWidth - 350;
+                height = window.innerHeight - 175;
+                p.resizeCanvas(width, height);
+                buffer = p.createGraphics(width,height);
+                buffer.noSmooth();
+                // capture.resize(window.innerWidth - 350, window.innerHeight-175);
+              }
+        }
         
-            p.windowResized = () => {
-            p.resizeCanvas(width, height);
-          }
+         
         
 }
 
     render(){
       return (
-    <div>
-         <h1 className='text-center'>"do 4 luv"</h1>
-         <div id="cnv" ref={this.rootRef}></div>
-    </div>
+        <div className='container'>
+        <div className='row align-items-center justify-content-center'>
+            <h1>"do 4 luv"</h1>
+        </div>
+        <div className='row align-items-center justify-content-center'>
+            <div style={{border: '2px solid white'}} id="luvCnv" ref={this.rootRef}></div>
+        </div>
+   </div>
       );
     }
     }
