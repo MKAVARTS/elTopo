@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
-let width = window.innerWidth - 350;
-let height = window.innerHeight - 175;
+let draw;
+let amount = 10;
+let width;
+let height;
 var clearBackground = true;
 let counter = 0;
 let buffer, cnv, capture;
@@ -24,9 +26,15 @@ export default class Luv extends Component {
 
     componentDidMount() {
         // console.log('luv component mounted');
+
+      
         width = window.innerWidth - 350;
         height = window.innerHeight - 175;
         new p5(this.sketch, this.root);
+
+        
+
+        console.log('draw luv', draw);
         // window.onresize = () => {
         //   if(window.innerWidth < 800){
         //     this.canvas.resize(width, window.innerHeight-175);
@@ -36,20 +44,28 @@ export default class Luv extends Component {
         //   }
           };
 
+      componentWillUnmount(){
+        draw = false;
+      }
+
     sketch = (p) => {
         this.p = p;
         
         // setup
            p.setup = () => {
 
-            if(window.innerWidth < 900){
+            draw = true;
+
+            width = Math.floor(window.innerWidth-175);
+            width = Math.round(width/ amount) * amount;
+            console.log("setup width", width);
+            height = Math.floor(window.innerHeight-175);
+            height = Math.round(height / amount) * amount;
+            console.log("setup height", height);
+  
+            if(width < 400){
               width = 350;
-              height = window.innerHeight-175
-              // capture.resize(wid, window.innerHeight-175);
-            }else{
-              width = window.innerWidth - 350;
-              height = window.innerHeight - 175;
-              // capture.resize(window.innerWidth - 350, window.innerHeight-175);
+              height = 500;
             }
         
             this.canvas = p.createCanvas(width, height);
@@ -67,10 +83,9 @@ export default class Luv extends Component {
           // draw 
            p.draw = () => {
 
-       
+            if(draw){
         
-              if(this.state.playLuv){
-        
+          console.log('drawing luv');
             let translateX = p.map(p.mouseX - width/2, -width, width, -20, 20);
             let translateY = p.map(p.mouseY - height/2, -height, height, -20, 20);
             let scaleX = 1.;
@@ -111,10 +126,11 @@ export default class Luv extends Component {
               }
         
             }
-          }else{
+          } else if(!draw){
+            console.log('not drawing luv');
             p.noLoop();
           }
-          }
+        }
         
         
           // functions 

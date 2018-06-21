@@ -23,7 +23,7 @@ class App extends Component {
     this.state={
       showInfo: false,
       enter: false,
-      playTerra: true,
+      playTerra: false,
       playLuv : false,
       playPlus : false,
       playOrPauseTerra : 'pause'
@@ -31,7 +31,7 @@ class App extends Component {
   }
   
   pressedEnter = () => {
-    this.setState({enter: true});
+    this.setState({enter: true, playTerra: true});
   }
 
   nextTrack = () => {
@@ -96,6 +96,7 @@ class App extends Component {
   }
 
   render() {
+    const playTerra = this.state.playTerra;
     if(this.state.enter === false){
     return (
         <div className = "container">
@@ -113,9 +114,9 @@ class App extends Component {
     return(
       <div id='terra' className='container'>
           <div className='row text-center'>
-            < Terra playTerra={this.state.playTerra} />
+            < Terra playTerra={playTerra} />
           </div>
-          <div className='row align-items-center align-content-center text-center'>
+          <div className=' mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
                     <div><audio id='terraform' loop={true} autoPlay={true} src={terraform}/></div>
 
@@ -138,7 +139,7 @@ class App extends Component {
           < Luv playLuv={this.state.playLuv} />
           </div>
         </div>
-        <div id='luvPlayer' className='row align-items-center align-content-center text-center'>
+        <div id='luvPlayer' className='mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
             <div><audio loop={true} id='do4luv' autoPlay={true} src={do4luv}/></div>
 
@@ -161,7 +162,7 @@ class App extends Component {
           < Plus playPlus={this.state.playPlus} />
           </div>
         </div>
-        <div id='plusPlayer' className='row align-items-center align-content-center text-center'>
+        <div id='plusPlayer' className='mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
             <div><audio loop={true} id='do4luv' autoPlay={true} src={plusplusplus}/></div>
 
