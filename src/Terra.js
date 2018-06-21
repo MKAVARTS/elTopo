@@ -4,8 +4,8 @@ import p5 from 'p5';
 import 'p5/lib/addons/p5.sound.min.js';
 
 let draw;
-let amount = 40;
-let walkerAmount = 100;
+let amount = 20;
+let walkerAmount = 20;
 let walkerArray = [];
 let width = window.innerWidth - 350;
 let height = window.innerHeight - 175;

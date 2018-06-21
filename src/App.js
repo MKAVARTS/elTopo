@@ -116,7 +116,7 @@ class App extends Component {
           <div className='row text-center'>
             < Terra playTerra={playTerra} />
           </div>
-          <div className=' mediaPlayer row align-items-center align-content-center text-center'>
+          <div className=' mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
                     <div><audio id='terraform' loop={true} autoPlay={true} src={terraform}/></div>
 
@@ -139,7 +139,7 @@ class App extends Component {
           < Luv playLuv={this.state.playLuv} />
           </div>
         </div>
-        <div id='luvPlayer' className='row align-items-center align-content-center text-center'>
+        <div id='luvPlayer' className='mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
             <div><audio loop={true} id='do4luv' autoPlay={true} src={do4luv}/></div>
 
@@ -162,7 +162,7 @@ class App extends Component {
           < Plus playPlus={this.state.playPlus} />
           </div>
         </div>
-        <div id='plusPlayer' className='row align-items-center align-content-center text-center'>
+        <div id='plusPlayer' className='mediaPlayer py-2 row align-items-center align-content-center text-center'>
 
             <div><audio loop={true} id='do4luv' autoPlay={true} src={plusplusplus}/></div>
 

@@ -6,8 +6,8 @@ import 'p5/lib/addons/p5.sound.min.js';
 let draw;
 let width;
 let height;
-let amount = 20;
-let displayType = 0;
+let amount = 50;
+let displayType = 2;
 let length = amount;
 var counter = 0;
 let lineArray = [];
@@ -121,55 +121,88 @@ export default class Plus extends Component {
                   this.y = height;
                 }
             }
-        }
+        } 
+
+        this.fillColorOneFunction = () => {
+          var pickAColor = p.floor(p.random(3));
+
+          switch(pickAColor){
+              case 0: 
+              return '#ffffff';
+              case 1: 
+               return '#000000';
+              case 2: 
+              return '#fff44f';
+              default: 
+              return '#ffffff';
+          }
+      }
+
+        this.fillColorTwoFunction = () => {
+          var pickAColor = p.floor(p.random(3));
+
+          switch(pickAColor){
+              case 0: 
+              return '#DC143C';
+              case 1: 
+               return '#f28500';
+              case 2: 
+              return '#000000';
+              default: 
+              return '#ffffff';
+          }
+      }
+
             this.displayPath = () => {
               
               if(displayType === 0){
               counter = p.random();
               if(counter < 0.5){
               // p.push();
-              p.stroke(255,255,255);
-              p.strokeWeight(1);
-              p.line(this.x ,this.y, this.x, this.y + amount);
+
+              p.stroke(this.fillColorOneFunction());
+              p.strokeWeight(2);
+              p.rect(this.x, this.y, amount/4,amount/4);
               // p.pop();
             }else if(counter > 0.5){
               // p.push();
-              p.stroke(0,0,255);
-              p.strokeWeight(1);
+              p.stroke(this.fillColorTwoFunction());
+              p.strokeWeight(10);
               p.fill(0);
-              p.line(this.x,this.y + amount, this.x + amount, this.y + amount);
+              p.point(this.x + amount ,this.y + amount);
               // p.pop();
             }
           }else if(displayType === 1){
             counter = p.random();
             if(counter < 0.5){
             // p.push();
-            p.stroke(0,0,255);
-            p.strokeWeight(1.5);
+            p.stroke(this.fillColorOneFunction());
+            p.strokeWeight(2);
             p.line(this.x ,this.y + amount, this.x + amount, this.y + amount);
             // p.pop();
           }else if(counter > 0.5){
             // p.push();
-            p.stroke(255,255,255);
-            p.strokeWeight(1.5);
+            p.stroke(this.fillColorTwoFunction());
+            p.strokeWeight(5);
             p.fill(0);
-            p.line(this.x ,this.y, this.x + amount, this.y);
+            p.line(this.x ,this.y, this.x + amount, this.y + amount);
             // p.pop();
           }
           }else if(displayType === 2){
             counter = p.random();
             if(counter < 0.5){
             // p.push();
-            p.stroke(255,255,255);
+            p.stroke(this.fillColorOneFunction());
             p.strokeWeight(1);
-            p.line(this.x ,this.y + amount, this.x + amount, this.y);
+            p.line(this.x + amount ,this.y + amount, this.x + amount, this.y);
            
             // p.pop();
           }else if(counter > 0.5){
             // p.push();
-            p.stroke(0,0,255);
-            p.strokeWeight(1);
-            p.rect(this.x ,this.y, amount, amount);
+            p.noFill();
+            p.stroke(this.fillColorTwoFunction());
+            p.strokeWeight(20);
+            p.point(this.x ,this.y);
             // p.pop();
           }
         }
