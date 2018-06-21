@@ -25,11 +25,10 @@ body {
   /* background-color: pink; */
 }
 
-p{
-  color: white;
-  font-size: 0.8em;
-
+.mediaPlayer{
+  min-width: 350px;
 }
+
 
 h5{
   font-size : 1.75em;
@@ -80,11 +79,21 @@ img:hover {
   height: 100%;
 }
 
+p{
+  color: white;
+  font-size: 1.5em;
+}
+
 h1{
   font-size: 5em;
   margin-bottom: 5px;
   font-family: 'digestive';
   color: white;
+} 
+
+h3{
+  color: white;
+  display: inline;
 }
 
 #player{
@@ -93,4 +102,12 @@ h1{
 
 #luvPlayer {
   /* background-color: pink; */
+}
+
+@media(min-width: 350px){
+  h5{
+    font-size : 1.5em;
+    font-family: 'Inconsolata', monospace;
+    color: white;
+  }
 }

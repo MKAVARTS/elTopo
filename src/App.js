@@ -23,7 +23,7 @@ class App extends Component {
     this.state={
       showInfo: false,
       enter: false,
-      playTerra: true,
+      playTerra: false,
       playLuv : false,
       playPlus : false,
       playOrPauseTerra : 'pause'
@@ -31,7 +31,7 @@ class App extends Component {
   }
   
   pressedEnter = () => {
-    this.setState({enter: true});
+    this.setState({enter: true, playTerra: true});
   }
 
   nextTrack = () => {
@@ -96,6 +96,7 @@ class App extends Component {
   }
 
   render() {
+    const playTerra = this.state.playTerra;
     if(this.state.enter === false){
     return (
         <div className = "container">
@@ -113,9 +114,9 @@ class App extends Component {
     return(
       <div id='terra' className='container'>
           <div className='row text-center'>
-            < Terra playTerra={this.state.playTerra} />
+            < Terra playTerra={playTerra} />
           </div>
-          <div className='row align-items-center align-content-center text-center'>
+          <div className=' mediaPlayer row align-items-center align-content-center text-center'>
 
                     <div><audio id='terraform' loop={true} autoPlay={true} src={terraform}/></div>
 
